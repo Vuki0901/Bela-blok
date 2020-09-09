@@ -16,7 +16,7 @@ export default function Blok(props) {
 
     return(
         <span className="Blok">
-            {props.team}
+            <p className="title">{props.team}</p>
             <hr />
             {rezultati}
         </span>

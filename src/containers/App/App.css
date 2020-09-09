@@ -1,3 +1,7 @@
 .BlokParent{
   position: absolute;
 }
+
+.Parent{
+  align-items: center;
+}
