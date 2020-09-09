@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/Bela-blok/static/css/main.db235768.chunk.css",
+    "main.js": "/Bela-blok/static/js/main.79977a6a.chunk.js",
+    "main.js.map": "/Bela-blok/static/js/main.79977a6a.chunk.js.map",
+    "runtime-main.js": "/Bela-blok/static/js/runtime-main.6a542cf1.js",
+    "runtime-main.js.map": "/Bela-blok/static/js/runtime-main.6a542cf1.js.map",
+    "static/css/2.c04d6913.chunk.css": "/Bela-blok/static/css/2.c04d6913.chunk.css",
+    "static/js/2.faa182db.chunk.js": "/Bela-blok/static/js/2.faa182db.chunk.js",
+    "static/js/2.faa182db.chunk.js.map": "/Bela-blok/static/js/2.faa182db.chunk.js.map",
+    "index.html": "/Bela-blok/index.html",
+    "precache-manifest.2b8478576db4e3d2ca20129da5ec7c67.js": "/Bela-blok/precache-manifest.2b8478576db4e3d2ca20129da5ec7c67.js",
+    "service-worker.js": "/Bela-blok/service-worker.js",
+    "static/css/2.c04d6913.chunk.css.map": "/Bela-blok/static/css/2.c04d6913.chunk.css.map",
+    "static/css/main.db235768.chunk.css.map": "/Bela-blok/static/css/main.db235768.chunk.css.map",
+    "static/js/2.faa182db.chunk.js.LICENSE.txt": "/Bela-blok/static/js/2.faa182db.chunk.js.LICENSE.txt",
+    "static/media/logo.png": "/Bela-blok/static/media/logo.ec79c98b.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6a542cf1.js",
+    "static/css/2.c04d6913.chunk.css",
+    "static/js/2.faa182db.chunk.js",
+    "static/css/main.db235768.chunk.css",
+    "static/js/main.79977a6a.chunk.js"
+  ]
+}
