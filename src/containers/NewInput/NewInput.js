@@ -30,7 +30,7 @@ export default class NewInput extends React.Component {
         switch(document.getElementById("zvaoMi").checked){
             case true:
                 msg = us < igra / 2 ? "Tim Mi je pao" : "Tim Mi je prošao"
-                this.setState({ msg: msg })
+                this.setState({ msg: msg, zvaoMi: true })
                 break;
             case false:
                 msg = thy < igra / 2 ? "Tim Vi je pao" : "Tim Vi je prošao"
@@ -139,11 +139,11 @@ export default class NewInput extends React.Component {
 
 
                     <InputGroup>
-                        <InputGroup.Radio name="zvao" id="zvaoMi"/>                        
+                        <InputGroup.Radio name="zvao" id="zvaoMi" onChange={this.msgHandler}/>                        
                         <FormControl id="rezMi" onChange={this.rezUpdate} value={
                             this.state.us === 0 ? "" : this.state.us
                         } placeholder={this.props.teams[0]}/>
-                        <InputGroup.Radio name="zvao" id="zvaoVi"/>
+                        <InputGroup.Radio name="zvao" id="zvaoVi" onChange={this.msgHandler}/>
                         <FormControl id="rezVi" onChange={this.rezUpdate} value={
                             this.state.thy === 0 ? "" : this.state.thy
                         } placeholder={this.props.teams[1]}/>                    

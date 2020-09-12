@@ -78,12 +78,13 @@ export default class App extends React.Component {
       newGame.us < newGame.igra / 2){
       newGame.us = 0;
       newGame.thy = newGame.igra
-    } else if (!newGame.zvaoMi && parseInt(newGame.thy) < newGame.igra / 2){
+    } else if (!newGame.zvaoMi && newGame.thy < newGame.igra / 2){
       newGame.thy = 0;
       newGame.us = newGame.igra;
     }
+    //if a team chose trump color and didn't manage to collect at least a half of the game points, it gets 0 points
 
-    /////////////////////////////
+    //creating a copy of current array and pushing new results inside
     const usCopy = [...this.state.us]
     const thyCopy = [...this.state.thy]
     usCopy.push(newGame.us)
@@ -101,14 +102,15 @@ export default class App extends React.Component {
         [code]: game
     }).then(
       response => { console.log(response) },
-      this.setState({ end: !this.state.end })
+      this.setState({
+        end: !this.state.end,
+        us: [],
+        thy: [],
+      })
     )
   }
 
-  loadGame = (loadedGame) => {
-    console.log(loadedGame);
-  }
-
+  //reseting the whole current game
   newGameButtonHandler = () => {
     this.setState({
         us: [],
@@ -116,6 +118,7 @@ export default class App extends React.Component {
     })
   }
 
+  //to save current game
   saveGameButtonHandler = () => {
     this.setState({
       prevGame: {
@@ -123,11 +126,25 @@ export default class App extends React.Component {
         us: [...this.state.us],
         thy: [...this.state.thy],
       },
-      us: [],
-      thy: [],
       end: true,
     })
   }
+
+  loadGame = loadedGame => {
+    if (
+      loadedGame.us < 1001 &&
+      loadedGame.thy < 1001
+    ) {
+        this.setState({
+          us: [loadedGame.us,],
+          thy: [loadedGame.thy,],
+          loadGame: !this.state.loadGame
+        })
+    } else {
+
+    }
+    
+  } 
   render() {
 
     return (

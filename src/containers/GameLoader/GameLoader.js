@@ -13,6 +13,7 @@ export default class GameLoader extends React.Component{
             us: "",
             thy: "",
             msg: "",
+            errorMsg: null,
         }
     }
 
@@ -30,6 +31,15 @@ export default class GameLoader extends React.Component{
                             us: savedGames[save][key].us,
                             thy: savedGames[save][key].thy,
                             msg: savedGames[save][key].msg,
+                        }, () => {
+                            if (
+                                this.state.us > 1000 ||
+                                this.state.thy > 1000
+                              ) {
+                                  this.setState({ errorMsg: "Igra je završena" })
+                              } else {
+                                  this.setState({ errorMsg: null })
+                              }
                         })
                     }
                 }
@@ -57,13 +67,14 @@ export default class GameLoader extends React.Component{
                     <p>Us: {this.state.us}</p>
                     <p>Thy: {this.state.thy}</p>
                     <p>Msg: {this.state.msg}</p>
+                    <h6>{this.state.errorMsg}</h6>
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={this.props.action}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={() => {this.props.load(this.state)}}>
-                    Continue Loaded Game
+                <Button disabled={this.state.errorMsg ? true : false} variant="primary" onClick={() => {this.props.load(this.state)}}>
+                    {this.state.errorMsg ? "Nemoguće Učitati Završenu Partiju" : "Nastavi Učitanu Partiju"}
                 </Button>
                 </Modal.Footer>
 
