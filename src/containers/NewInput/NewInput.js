@@ -9,11 +9,11 @@ export default class NewInput extends React.Component {
     constructor(props){
         super (props);
         this.state = {
-            mi: 0,
-            vi: 0,
+            us: 0,
+            thy: 0,
             zvanja: {
-                mi: 0,
-                vi: 0
+                us: 0,
+                thy: 0
             },
             igra: 162,
             zvaoMi: true,
@@ -24,17 +24,17 @@ export default class NewInput extends React.Component {
     
     msgHandler = () => {
         let msg;
-        const mi = this.state.mi
-        const vi = this.state.vi
+        const us = this.state.us
+        const thy = this.state.thy
         const igra = this.state.igra
         switch(document.getElementById("zvaoMi").checked){
             case true:
-                msg = mi < igra / 2 ? "Tim Mi je pao" : "Tim Mi je prošao"
+                msg = us < igra / 2 ? "Tim Mi je pao" : "Tim Mi je prošao"
                 this.setState({ msg: msg })
                 break;
             case false:
-                msg = vi < igra / 2 ? "Tim Vi je pao" : "Tim Vi je prošao"
-                this.setState({ msg: msg })
+                msg = thy < igra / 2 ? "Tim Vi je pao" : "Tim Vi je prošao"
+                this.setState({ msg: msg, zvaoMi: false })
                 break;
             default:
                 return null;
@@ -53,13 +53,13 @@ export default class NewInput extends React.Component {
             case "rezMi":
                 this.setState(
                     {
-                        mi: x, 
-                        vi: this.state.igra - x
+                        us: x, 
+                        thy: this.state.igra - x
                     }
                 , () => {this.msgHandler()})
                 break;
             case "rezVi":
-                this.setState({ vi: x, mi: this.state.igra - x },
+                this.setState({ thy: x, us: this.state.igra - x },
                     () => {this.msgHandler()})
                 break;
             default:
@@ -77,19 +77,19 @@ export default class NewInput extends React.Component {
             case "zvanjaMi":
                 this.setState({
                     zvanja: {
-                        mi: y,
-                        vi: this.state.zvanja.vi 
+                        us: y,
+                        thy: this.state.zvanja.thy 
                     },
-                    igra: 162 + y + this.state.zvanja.vi 
+                    igra: 162 + y + this.state.zvanja.thy 
                 })
                 break;
             case "zvanjaVi":
                 this.setState({
                     zvanja: {
-                        vi: y,
-                        mi: this.state.zvanja.mi 
+                        thy: y,
+                        us: this.state.zvanja.us 
                     },
-                    igra: 162 + y + this.state.zvanja.mi 
+                    igra: 162 + y + this.state.zvanja.us 
                 })
                 break;
             default:
@@ -97,19 +97,19 @@ export default class NewInput extends React.Component {
         }
     }
 
-    //optimizacija
-    /*
-    shouldComponentUpdate(nextProps, nextState){
-        if (nextState.mi !== this.state.mi ||
-            nextState.vi !== this.state.vi ||
-            nextState.zvanja.mi !== this.state.zvanja.mi ||
-            nextState.zvanja.vi !== this.state.zvanja.vi){
-                return true
-            } else {
-                return false
-            }
+    shouldComponentUpdate(nextState){
+        if (
+            nextState.us !== this.state.us ||
+            nextState.thy !== this.state.thy ||
+            nextState.zvanja.us !== this.state.zvanja.us ||
+            nextState.zvanja.thy !== this.state.zvanja.us ||
+            nextState.zvaoMi !== document.getElementById("zvaoMi").checked
+        ) {
+            return true
+        } else {
+            return false
+        }
     }
-    */
 
     render() {
         return (
@@ -122,12 +122,12 @@ export default class NewInput extends React.Component {
                     <h2>Ukupno zvanja:</h2>
                     <p>Nepotrebno ispunjavati ako nema zvanja</p>
 
-                    <InputGroup >
+                    <InputGroup onChange={this.msgHandler}>
                         <FormControl type="number" onChange={this.zvanjaUpdate} id="zvanjaMi" value={
-                            this.state.zvanja.mi === 0 ? "" : this.state.zvanja.mi
+                            this.state.zvanja.us === 0 ? "" : this.state.zvanja.us
                         } placeholder="Mi Zvanja"/>
                         <FormControl type="number" onChange={this.zvanjaUpdate} id="zvanjaVi" value={
-                            this.state.zvanja.vi === 0 ? "" : this.state.zvanja.vi
+                            this.state.zvanja.thy === 0 ? "" : this.state.zvanja.thy
                         } placeholder="Vi Zvanja" />
                     </InputGroup>
 
@@ -141,11 +141,11 @@ export default class NewInput extends React.Component {
                     <InputGroup>
                         <InputGroup.Radio name="zvao" id="zvaoMi"/>                        
                         <FormControl id="rezMi" onChange={this.rezUpdate} value={
-                            this.state.mi === 0 ? "" : this.state.mi
+                            this.state.us === 0 ? "" : this.state.us
                         } placeholder={this.props.teams[0]}/>
                         <InputGroup.Radio name="zvao" id="zvaoVi"/>
                         <FormControl id="rezVi" onChange={this.rezUpdate} value={
-                            this.state.vi === 0 ? "" : this.state.vi
+                            this.state.thy === 0 ? "" : this.state.thy
                         } placeholder={this.props.teams[1]}/>                    
                     </InputGroup>
                     <p>{this.state.msg}</p>
@@ -154,10 +154,10 @@ export default class NewInput extends React.Component {
 
                 <Modal.Footer>
                 <Button variant="secondary" onClick={this.props.action}>
-                    Zatvori
+                    Close
                 </Button>
                 <Button variant="primary" onClick={() => { this.props.submit(this.state) }}>
-                    Spremi Unos
+                    Save Entry
                 </Button>
                 </Modal.Footer>
 

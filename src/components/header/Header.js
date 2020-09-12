@@ -12,8 +12,8 @@ export default function Header(){
     return (
         <Container fluid>
             <Row className="Background">
-                <Col sm={6}><img width={128} height={128} src={logo} alt="logo"/></Col>
-                <Col sm={2}><h1 className="title1">Bela Blok</h1></Col>
+                <Col sm={3}><img width={128} height={128} src={logo} alt="logo"/></Col>
+                <Col sm={2}><h1 className="title1">Bela<br />Blok</h1></Col>
             </Row>
         </Container>
     )

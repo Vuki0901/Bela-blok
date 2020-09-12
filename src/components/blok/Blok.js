@@ -15,7 +15,7 @@ export default function Blok(props) {
         )
     })
 
-    
+    //total score 
     const arr = props.rezultati
     let s = 0;
     for (let i = 0; i < arr.length; i++){

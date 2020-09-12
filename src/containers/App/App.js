@@ -1,20 +1,27 @@
 import React from 'react';
+import axios from 'axios';
 import './App.css';
+
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import Blok from '../../components/blok/Blok';
 import SaveGame from '../../components/SaveGame/SaveGame'
-
-import Button from 'react-bootstrap/Button'
 import Header from '../../components/header/Header';
 import NewInput from '../NewInput/NewInput';
+import GameLoader from '../GameLoader/GameLoader';
 
 export default class App extends React.Component {
   state = {
-    mi: [],
-    vi: [900,],
+    us: [500,],
+    thy: [900,],
     teams: ["Mi", "Vi"],
     inputShow: false,
     end: false,
+    loadGame: false,
+    prevGame: {},
   }
 
   newInpButton = () => {
@@ -25,14 +32,18 @@ export default class App extends React.Component {
     this.setState({ end: !this.state.end })
   }
 
+  loadGameHandler = () => {
+    this.setState({ loadGame: !this.state.loadGame })
+  }
+
+  //has either team reached 1001 points
   isGameFinished = () => {
-    const arr1 = this.state.mi
-    const arr2 = this.state.vi
+    const arr1 = this.state.us
+    const arr2 = this.state.thy
     let s = 0;
     for (let i = 0; i < arr1.length; i++){
       s += arr1[i]
     }
-    console.log("1. provjera: " + s);
     if (s > 1000) {
       return true
     } else {
@@ -40,60 +51,119 @@ export default class App extends React.Component {
       for (let i = 0; i < arr2.length; i++){
         s += arr2[i]
       }
-      console.log("2. provjera: " + s);
       return s > 1000 ? true : false
     }
   }
 
+  //Action to perform if either team reached 1001 points.
+  //Reset the state and prepare data for posting the game to backend
   gameFinishedHandler = () => {
     if (this.isGameFinished()){
       this.setState({
-        mi: [],
-        vi: [],
+        prevGame: {
+          title: "Game Over",
+          us: [...this.state.us],
+          thy: [...this.state.thy],
+        },
+        us: [],
+        thy: [],
         end: true,
       })
     }
   }
 
+  //check if either team has failed and then update the table
   getNewGame = (newGame) => {
-    if(newGame.zvaoMi && newGame.mi < newGame.igra / 2){
-      newGame.mi = 0;
-      newGame.vi = newGame.igra
-    } else if (!newGame.zvaoMi && newGame.vi < newGame.igra / 2){
-      newGame.vi = 0;
-      newGame.mi = newGame.igra;
+    if(newGame.zvaoMi &&
+      newGame.us < newGame.igra / 2){
+      newGame.us = 0;
+      newGame.thy = newGame.igra
+    } else if (!newGame.zvaoMi && parseInt(newGame.thy) < newGame.igra / 2){
+      newGame.thy = 0;
+      newGame.us = newGame.igra;
     }
 
     /////////////////////////////
-    const miCopy = [...this.state.mi]
-    const viCopy = [...this.state.vi]
-    miCopy.push(newGame.mi)
-    viCopy.push(newGame.vi)
-    console.log(miCopy, viCopy);
+    const usCopy = [...this.state.us]
+    const thyCopy = [...this.state.thy]
+    usCopy.push(newGame.us)
+    thyCopy.push(newGame.thy)
     this.setState({
-      mi: miCopy,
-      vi: viCopy,
+      us: usCopy,
+      thy: thyCopy,
       inputShow: !this.state.inputShow 
     }, () => {this.gameFinishedHandler()})}
+    
+  //sending data to firebase
+  postGame = (code, note, game) => {
+    game.msg = note
+    axios.post("/partije.json",{
+        [code]: game
+    }).then(
+      response => { console.log(response) },
+      this.setState({ end: !this.state.end })
+    )
+  }
 
+  loadGame = (loadedGame) => {
+    console.log(loadedGame);
+  }
+
+  newGameButtonHandler = () => {
+    this.setState({
+        us: [],
+        thy: []
+    })
+  }
+
+  saveGameButtonHandler = () => {
+    this.setState({
+      prevGame: {
+        title: "Save Game",
+        us: [...this.state.us],
+        thy: [...this.state.thy],
+      },
+      us: [],
+      thy: [],
+      end: true,
+    })
+  }
   render() {
 
     return (
-        <div className="Parent">
-          <Header />
-          <br />
-          <Button size="lg">
-            Nova Partija
-          </Button>
-      	  <br /><br />
-          <Button onClick={this.newInpButton} size="lg">
-            Novi Unos
-          </Button>
-          <br /><br />
-          <Button  size="lg">
-            Spremi partiju
-          </Button>
-          <br /><br />
+        <Container fluid>
+          <Row>
+            <Header />
+            <br />
+          </Row>
+          <Row><div style={{height: "20px"}}></div></Row>
+          <Row>
+            <Col sm={3} />
+            <Col sm={3}>
+              <Button  onClick={this.newInpButton} size="lg">
+                Novi Unos
+              </Button>
+              <br /><br />
+              <Button size="lg" onClick={this.newGameButtonHandler}>
+                Resetiraj
+              </Button>
+              <br /><br />
+              <Button size="lg" onClick={this.loadGameHandler}>
+                Učitaj Igru
+              </Button>
+              <br /><br />
+              <Button  size="lg"  onClick={this.saveGameButtonHandler}>
+                Spremi Partiju
+              </Button>
+              <br /><br />
+              
+            </Col>
+            <Col>
+              <Blok team="Mi" rezultati={this.state.us}/>
+              <Blok team="Vi" rezultati={this.state.thy}/>            
+            </Col>
+          </Row>
+          
           {
             this.state.inputShow
             ?
@@ -104,15 +174,18 @@ export default class App extends React.Component {
           {
             this.state.end
             ?
-            <SaveGame action={this.endStateHandler} show={this.state.end} />
+            <SaveGame game={this.state.prevGame} action={this.endStateHandler} show={this.state.end} submit={this.postGame}/>
             :
             null
           }
-
-          <Blok team="Mi" rezultati={this.state.mi}/>
-          <Blok team="Vi" rezultati={this.state.vi}/>
-
-        </div>
+          {
+            this.state.loadGame
+            ?
+            <GameLoader show={this.state.loadGame} action={this.loadGameHandler} load={this.loadGame}/>
+            :
+            null
+          }
+      </Container>
     )
   }
 } 
