@@ -15,8 +15,8 @@ import GameLoader from '../GameLoader/GameLoader';
 
 export default class App extends React.Component {
   state = {
-    us: [500,],
-    thy: [900,],
+    us: [],
+    thy: [],
     teams: ["Mi", "Vi"],
     inputShow: false,
     end: false,
