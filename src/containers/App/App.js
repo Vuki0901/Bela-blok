@@ -176,8 +176,11 @@ export default class App extends React.Component {
               
             </Col>
             <Col>
-              <Blok team="Mi" rezultati={this.state.us}/>
-              <Blok team="Vi" rezultati={this.state.thy}/>            
+              <div className="vertical-center">
+                <Blok team="Mi" rezultati={this.state.us}/>
+                <Blok team="Vi" rezultati={this.state.thy}/>            
+
+              </div>
             </Col>
           </Row>
           
