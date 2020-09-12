@@ -32,29 +32,29 @@ export default function SaveGame(props){
                 </Modal.Header>
                 <Modal.Body>
 
-                    <h6>Us: {sUs}</h6>
-                    <h6>Thy: {sThy}</h6>
+                    <h6>Mi: {sUs}</h6>
+                    <h6>Vi: {sThy}</h6>
                     <br />
-                    <h6>Key: (with this you can reach the game data later)</h6>
+                    <h6>Ključ: (za učitavanje partije kasnije)</h6>
                     <InputGroup>
                         <FormControl disabled id="code" type="text" value={code}/>
                     </InputGroup>
 
                     <InputGroup>
-                        <FormControl id="note" type="text" placeholder="Notes (who played, duration, etc.) - optional"/>
+                        <FormControl id="note" type="text" placeholder="Bilješke (igrači, proteklo vrijeme i sl.) - nije obavezno"/>
                     </InputGroup>
 
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={props.action}>
-                    Close
+                    Zatvori
                 </Button>
                 <Button variant="primary" onClick={() => {props.submit(
                     code,
                     document.getElementById("note").value,
                     props.game
                 )}}>
-                    Save Game
+                    Spremi Partiju
                 </Button>
                 </Modal.Footer>
 

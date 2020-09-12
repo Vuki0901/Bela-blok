@@ -61,7 +61,7 @@ export default class App extends React.Component {
     if (this.isGameFinished()){
       this.setState({
         prevGame: {
-          title: "Game Over",
+          title: "Kraj Partije",
           us: [...this.state.us],
           thy: [...this.state.thy],
         },
@@ -122,7 +122,7 @@ export default class App extends React.Component {
   saveGameButtonHandler = () => {
     this.setState({
       prevGame: {
-        title: "Save Game",
+        title: "Spremi Partiju",
         us: [...this.state.us],
         thy: [...this.state.thy],
       },
@@ -157,22 +157,22 @@ export default class App extends React.Component {
           <Row>
             <Col sm={3} />
             <Col sm={3}>
-              <Button  onClick={this.newInpButton} size="lg">
+              <Button block onClick={this.newInpButton} size="lg">
                 Novi Unos
               </Button>
-              <br /><br />
-              <Button size="lg" onClick={this.newGameButtonHandler}>
+              <br />
+              <Button block size="lg" onClick={this.newGameButtonHandler}>
                 Resetiraj
               </Button>
-              <br /><br />
-              <Button size="lg" onClick={this.loadGameHandler}>
+              <br />
+              <Button block size="lg" onClick={this.loadGameHandler}>
                 Učitaj Igru
               </Button>
-              <br /><br />
-              <Button  size="lg"  onClick={this.saveGameButtonHandler}>
+              <br />
+              <Button block size="lg"  onClick={this.saveGameButtonHandler}>
                 Spremi Partiju
               </Button>
-              <br /><br />
+              <br />
               
             </Col>
             <Col>

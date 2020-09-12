@@ -154,10 +154,10 @@ export default class NewInput extends React.Component {
 
                 <Modal.Footer>
                 <Button variant="secondary" onClick={this.props.action}>
-                    Close
+                    Zatvori
                 </Button>
                 <Button variant="primary" onClick={() => { this.props.submit(this.state) }}>
-                    Save Entry
+                    Spremi Unos
                 </Button>
                 </Modal.Footer>
 

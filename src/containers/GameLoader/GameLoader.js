@@ -54,24 +54,24 @@ export default class GameLoader extends React.Component{
         return (
             <Modal show={this.props.show} onHide={this.props.action}>
                 <Modal.Header closeButton>
-                <Modal.Title>Load Game</Modal.Title>
+                <Modal.Title>Učitaj Partiju</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h6>To load a game, you must enter a key you received when you saved the game</h6>
+                    <h6>Da biste učitali igru, unesite ključ dobiven pri spremanju partije</h6>
                     <br />
                     <InputGroup>
-                        <FormControl id="key" type="text" placeholder="Key"/>
-                        <Button variant="primary" onClick={this.loadData}>Load</Button>
+                        <FormControl id="key" type="text" placeholder="Ključ"/>
+                        <Button variant="primary" onClick={this.loadData}>Učitaj</Button>
                     </InputGroup>
                     <br />
-                    <p>Us: {this.state.us}</p>
-                    <p>Thy: {this.state.thy}</p>
-                    <p>Msg: {this.state.msg}</p>
+                    <p>Mi: {this.state.us}</p>
+                    <p>Vi: {this.state.thy}</p>
+                    <p>Bilješke: {this.state.msg}</p>
                     <h6>{this.state.errorMsg}</h6>
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={this.props.action}>
-                    Close
+                    Zatvori
                 </Button>
                 <Button disabled={this.state.errorMsg ? true : false} variant="primary" onClick={() => {this.props.load(this.state)}}>
                     {this.state.errorMsg ? "Nemoguće Učitati Završenu Partiju" : "Nastavi Učitanu Partiju"}
